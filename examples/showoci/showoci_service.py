@@ -59,7 +59,7 @@ class ShowOCIFlags(object):
     config_file = oci.config.DEFAULT_LOCATION
     config_section = oci.config.DEFAULT_PROFILE
     use_instance_principals = False
-    use_token_auth = False # ???
+    use_token_auth = False 
 
     # flag if to run on compartment
     run_on_compartments = False
@@ -359,7 +359,6 @@ class ShowOCIService(object):
     def generate_signer_from_token_auth(self, config_file, config_section):
 
         try:
-            print ("HERE")
             self.config = oci.config.from_file(config_file, config_section)
             token_file = self.config['security_token_file']
             token = None
