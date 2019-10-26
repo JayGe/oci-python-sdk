@@ -59,6 +59,7 @@ class ShowOCIFlags(object):
     config_file = oci.config.DEFAULT_LOCATION
     config_section = oci.config.DEFAULT_PROFILE
     use_instance_principals = False
+    use_token_auth = False # ???
 
     # flag if to run on compartment
     run_on_compartments = False
@@ -330,6 +331,8 @@ class ShowOCIService(object):
         # if intance pricipals - generate signer from token or config
         if flags.use_instance_principals:
             self.generate_signer_from_instance_principals()
+        elif flags.use_token_auth:
+            self.generate_signer_from_token_auth(flags.config_file, flags.config_section)
         else:
             self.generate_signer_from_config(flags.config_file, flags.config_section)
 
@@ -348,6 +351,37 @@ class ShowOCIService(object):
             pass_phrase=oci.config.get_config_value_or_default(self.config, "pass_phrase"),
             private_key_content=self.config.get("key_content")
         )
+
+    ##########################################################################
+    # Generate Signer from token authentication
+    # https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/clitoken.htm
+    ###########################################################################
+    def generate_signer_from_token_auth(self, config_file, config_section):
+
+        try:
+            print ("HERE")
+            self.config = oci.config.from_file(config_file, config_section)
+            token_file = self.config['security_token_file']
+            token = None
+            with open(token_file, 'r') as f:
+                token = f.read()
+            private_key = oci.signer.load_private_key_from_file(self.config['key_file'])
+            self.signer = oci.auth.signers.SecurityTokenSigner(token, private_key)
+            usingtoken = 1
+
+        except Exception:
+            print("*********************************************************************")
+            print("* Error with token authentication.                                  *")
+            print("* Aborting.                                                         *")
+            print("*********************************************************************")
+            print("")
+            raise SystemExit
+
+        self.config = oci.config.from_file(config_file, config_section)
+        myregion = self.config['region']
+        mytenancy = self.config['tenancy']
+        
+        self.config = {'region': myregion, 'tenancy': mytenancy}
 
     ##########################################################################
     # Generate Signer from instance_principals

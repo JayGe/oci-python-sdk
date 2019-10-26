@@ -117,6 +117,7 @@ class ShowOCIData(object):
             'config_file': self.service.flags.config_file,
             'config_profile': self.service.flags.config_section,
             'use_instance_principals': self.service.flags.use_instance_principals,
+            'use_token_auth': self.service.flags.use_token_auth,
             'version': self.service.flags.showoci_version,
             'datetime': start_time,
             'cmdline': cmdline,

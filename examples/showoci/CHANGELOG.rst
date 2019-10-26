@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+19.9.24a - 2019-10-26
+====================
+* Added -k option to use token authentication from oci-cli
+
+====================
 19.9.24 - 2019-09-30
 ====================
 * Fix few bugs and added free compute shape

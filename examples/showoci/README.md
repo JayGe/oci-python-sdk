@@ -1,5 +1,7 @@
 ## showoci - Oracle Cloud Infrastructure Reporting Tool
 
+Slightly modified version of the below allowing use of token authentication from interactive login using used credentials with oci-cli. Option -k will use the token authentication information stored in a profile by the "oci session authenticate" command.
+
 SHOWOCI is a reporting tool which uses the Python SDK to extract list of resources from your tenant. 
 It covers most of OCI components, 
 Authentication by User or Compute using instance principals, 

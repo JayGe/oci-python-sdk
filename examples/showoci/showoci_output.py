@@ -103,6 +103,10 @@ class ShowOCIOutput(object):
             self.print_header(data['program'], 1)
             if data['use_instance_principals']:
                 print("Authentication : Instance Principals")
+            elif data['use_token_auth']:
+                 print("Authentication : Token Authentication")
+                 print("Config File    : " + data['config_file'])
+                 print("Config Profile : " + data['config_profile'])
             else:
                 print("Authentication : Config File")
                 print("Config File    : " + data['config_file'])
